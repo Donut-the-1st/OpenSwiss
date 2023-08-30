@@ -12,7 +12,7 @@ fn greet(name: &str) -> String {
 #[tauri::command]
 fn add_player(state: tauri::State<Competition>, player: String) {
   let player: Player = serde_json::from_str(&player).unwrap();
-  state.players.append(Player);
+  state.players.push(player);
   #[cfg(debug_assertions)]
   {
     println!("{:?}", player);
