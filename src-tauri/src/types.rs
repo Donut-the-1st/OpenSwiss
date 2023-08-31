@@ -7,7 +7,7 @@ pub struct Player {
     pub(crate) ID: u8
 }
 
-#[derive(Serialize, Deserialize, Default)]
+#[derive(Serialize, Deserialize, Default, Clone)]
 pub struct Competition {
     pub(crate) players: Vec<Player>,
     pub(crate) games_played: Array2<u8>,
