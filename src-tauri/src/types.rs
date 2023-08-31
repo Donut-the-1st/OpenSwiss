@@ -29,3 +29,11 @@ impl Default for Competition {
         }
     }
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Result {
+    pub(crate) player_1_id: u8,
+    pub(crate) player_2_id: u8,
+    pub(crate) player_1_wins: u8,
+    pub(crate) player_2_wins: u8
+}
