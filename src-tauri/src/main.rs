@@ -128,7 +128,11 @@ async fn get_ranks(state: tauri::State<'_, Mutex<Competition>>) -> Result<String
     Ok(serde_json::to_string(&ranks)?)
 }
 
-
+#[tauri::command]
+async fn get_players(state: tauri::State<'_, Mutex<Competition>>) -> Result<Vec<Player>, Error> {
+    let locked_state = state.lock()?;
+    Ok(locked_state.players.clone())
+}
 
 fn main() {
     tauri::Builder::default()
@@ -142,7 +146,8 @@ fn main() {
             add_result,
             update_results,
             get_scores,
-            get_ranks
+            get_ranks,
+            get_players
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
