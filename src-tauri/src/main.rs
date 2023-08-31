@@ -3,7 +3,9 @@
 
 mod types;
 mod power;
+mod argsort;
 
+use argsort::*;
 use types::*;
 use power::{rs_power};
 use std::sync::*;
@@ -59,6 +61,8 @@ async fn update_results(state: tauri::State<'_, Mutex<Competition>>) -> Competit
   locked_state.rankings.assign(&new_rankings);
   locked_state.clone()
 }
+
+
 
 fn main() {
   tauri::Builder::default()
