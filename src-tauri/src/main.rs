@@ -2,6 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod types;
+mod power;
+
 use types::*;
 use std::sync::*;
 
