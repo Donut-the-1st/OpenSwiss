@@ -3,17 +3,18 @@ pub use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub struct Player {
-    name: String
+    pub(crate) name: String,
+    pub(crate) ID: u8
 }
 
 #[derive(Serialize, Deserialize, Default)]
 pub struct Competition {
     pub(crate) players: Vec<Player>,
-    games_played: Array2<u8>,
-    games_won: Array2<u8>,
-    prop: Array2<f64>,
-    rankings: Array1<f64>,
-    initialised: bool
+    pub(crate) games_played: Array2<u8>,
+    pub(crate) games_won: Array2<u8>,
+    pub(crate) prop: Array2<f64>,
+    pub(crate) rankings: Array1<f64>,
+    pub(crate) initialised: bool
 }
 
 impl Default for Competition {
