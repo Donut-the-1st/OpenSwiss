@@ -5,6 +5,7 @@ mod types;
 mod power;
 
 use types::*;
+use power::{rs_power};
 use std::sync::*;
 
 #[tauri::command]

@@ -90,7 +90,7 @@ fn power_lrg_mat(array_A: ArrayView<f64, Ix2>, tolerance: f64) -> (Array<f64, Ix
     return (eigenvector, eigenvalue);
 }
 
-fn rs_power(
+pub(crate) fn rs_power(
     array_A: ArrayView<f64, Ix2>,
     tolerance: f64,
 ) -> (Array<f64, Ix1>, f64) {
