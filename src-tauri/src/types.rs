@@ -1,17 +1,17 @@
 pub use ndarray::prelude::*;
 pub use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Default, Debug)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Player {
     pub(crate) name: String,
-    pub(crate) ID: u8
+    pub(crate) ID: usize
 }
 
-#[derive(Serialize, Deserialize, Default, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Competition {
     pub(crate) players: Vec<Player>,
-    pub(crate) games_played: Array2<u8>,
-    pub(crate) games_won: Array2<u8>,
+    pub(crate) games_played: Array2<usize>,
+    pub(crate) games_won: Array2<usize>,
     pub(crate) prop: Array2<f64>,
     pub(crate) rankings: Array1<f64>,
     pub(crate) initialised: bool
@@ -31,9 +31,9 @@ impl Default for Competition {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Result {
-    pub(crate) player_1_id: u8,
-    pub(crate) player_2_id: u8,
-    pub(crate) player_1_wins: u8,
-    pub(crate) player_2_wins: u8
+pub struct GameResult {
+    pub(crate) player_1_id: usize,
+    pub(crate) player_2_id: usize,
+    pub(crate) player_1_wins: usize,
+    pub(crate) player_2_wins: usize
 }

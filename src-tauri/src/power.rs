@@ -1,5 +1,10 @@
-use ndarray::prelude::*;
+use ndarray::parallel::prelude::*;
 use ndarray::ViewRepr;
+use ndarray_linalg::Norm;
+use ndarray_rand::rand_distr::Uniform;
+use ndarray_rand::RandomExt;
+use ndarray::prelude::*;
+
 
 fn par_mat_vec_mul(array_a: &ArrayView<f64, Ix2>, vector_x: &Array<f64, Ix1>) -> Array<f64, Ix1> {
     let mut vector_b = Array::zeros(vector_x.len());
