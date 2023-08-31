@@ -129,9 +129,9 @@ async fn get_ranks(state: tauri::State<'_, Mutex<Competition>>) -> Result<String
 }
 
 #[tauri::command]
-async fn get_players(state: tauri::State<'_, Mutex<Competition>>) -> Result<Vec<Player>, Error> {
+async fn get_players(state: tauri::State<'_, Mutex<Competition>>) -> Result<String, Error> {
     let locked_state = state.lock()?;
-    Ok(locked_state.players.clone())
+    Ok(serde_json::to_string(&locked_state.players)?)
 }
 
 fn main() {
