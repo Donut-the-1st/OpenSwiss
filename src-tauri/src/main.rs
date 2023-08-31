@@ -93,8 +93,21 @@ async fn update_results(state: tauri::State<'_, Mutex<Competition>>) -> Result<(
 }
 
 #[tauri::command]
-async fn get_placements(state: tauri::State<'_, Mutex<Competition>>) -> Result<String, Error> {
+async fn get_scores(state: tauri::State<'_, Mutex<Competition>>) -> Result<String, Error> {
+  let locked_state = state.lock()?;
+  serde_json::to_string(
+    &locked_state.rankings
+          .to_vec()
+  )?;
+  Ok(())
+}
 
+#[tauri::command]
+async fn get_ranks(state: tauri::State<'_, Mutex<Competition>>) -> Result<String, Error> {
+  let locked_state = state.lock()?;
+  let ranks = argsort(&locked_state.rankings);
+  serde_json::to_string(&ranks)?;
+  Ok(())
 }
 
 fn main() {
