@@ -12,7 +12,7 @@ impl fmt::Display for NaNError {
     }
 }
 
-#[derive(PartialEq,PartialOrd)]
+#[derive(PartialEq, PartialOrd)]
 pub struct NoNaNf64(f64);
 
 impl NoNaNf64 {

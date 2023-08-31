@@ -1,10 +1,9 @@
 use ndarray::parallel::prelude::*;
+use ndarray::prelude::*;
 use ndarray::ViewRepr;
 use ndarray_linalg::Norm;
 use ndarray_rand::rand_distr::Uniform;
 use ndarray_rand::RandomExt;
-use ndarray::prelude::*;
-
 
 fn par_mat_vec_mul(array_a: &ArrayView<f64, Ix2>, vector_x: &Array<f64, Ix1>) -> Array<f64, Ix1> {
     let mut vector_b = Array::zeros(vector_x.len());
@@ -17,7 +16,11 @@ fn par_mat_vec_mul(array_a: &ArrayView<f64, Ix2>, vector_x: &Array<f64, Ix1>) ->
     return vector_b;
 }
 
-fn rs_deflate(array: &mut ArrayViewMut<f64, Ix2>, eigenvector: &ArrayView<f64, Ix1>, eigenvalue: f64) {
+fn rs_deflate(
+    array: &mut ArrayViewMut<f64, Ix2>,
+    eigenvector: &ArrayView<f64, Ix1>,
+    eigenvalue: f64,
+) {
     let scaled_eigenvector = eigenvalue * (eigenvector.clone().to_owned());
     array
         .axis_iter_mut(Axis(0))
@@ -95,10 +98,7 @@ fn power_lrg_mat(array_A: ArrayView<f64, Ix2>, tolerance: f64) -> (Array<f64, Ix
     return (eigenvector, eigenvalue);
 }
 
-pub(crate) fn rs_power(
-    array_A: ArrayView<f64, Ix2>,
-    tolerance: f64,
-) -> (Array<f64, Ix1>, f64) {
+pub(crate) fn rs_power(array_A: ArrayView<f64, Ix2>, tolerance: f64) -> (Array<f64, Ix1>, f64) {
     let mut eigenvalue: f64 = 0.0;
     let mut eigenvector: Array<f64, Ix1> = Array::zeros(array_A.nrows());
 
@@ -110,4 +110,3 @@ pub(crate) fn rs_power(
 
     return (eigenvector, eigenvalue);
 }
-

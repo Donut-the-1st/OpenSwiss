@@ -4,7 +4,7 @@ pub use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Player {
     pub(crate) name: String,
-    pub(crate) ID: usize
+    pub(crate) ID: usize,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -14,18 +14,18 @@ pub struct Competition {
     pub(crate) games_won: Array2<usize>,
     pub(crate) prop: Array2<f64>,
     pub(crate) rankings: Array1<f64>,
-    pub(crate) initialised: bool
+    pub(crate) initialised: bool,
 }
 
 impl Default for Competition {
     fn default() -> Self {
-        Competition{
+        Competition {
             players: vec![],
             games_played: Default::default(),
             games_won: Default::default(),
             prop: Default::default(),
             rankings: Default::default(),
-            initialised: false
+            initialised: false,
         }
     }
 }
@@ -35,5 +35,5 @@ pub struct GameResult {
     pub(crate) player_1_id: usize,
     pub(crate) player_2_id: usize,
     pub(crate) player_1_wins: usize,
-    pub(crate) player_2_wins: usize
+    pub(crate) player_2_wins: usize,
 }
