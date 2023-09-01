@@ -1,7 +1,8 @@
 <script>
-    import Greet from '../lib/Greet.svelte'
     import RegPlayer from "$lib/RegPlayer.svelte";
 </script>
-
-<h1>Welcome to SvelteKit</h1>
+<nav>
+    <a href="/Event">Run Event</a>
+</nav>
+<h1>Players</h1>
 <RegPlayer />

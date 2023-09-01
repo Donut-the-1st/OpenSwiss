@@ -3,8 +3,11 @@ pub use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Player {
-    pub(crate) name: String,
+    pub(crate) player_name: String,
     pub(crate) ID: usize,
+    pub(crate) score: f64,
+    pub(crate) wins: usize,
+    pub(crate) losses: usize
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -30,7 +33,7 @@ impl Default for Competition {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GameResult {
     pub(crate) player_1_id: usize,
     pub(crate) player_2_id: usize,

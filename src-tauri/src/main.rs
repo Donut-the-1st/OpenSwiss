@@ -61,8 +61,11 @@ async fn add_player(
     let mut locked_state = state.lock()?;
     locked_state.initialised = false;
     let new_player: Player = Player {
-        name: player_name,
+        player_name: player_name,
         ID: locked_state.players.len(),
+        score: 0.0,
+        wins: 0,
+        losses: 0
     };
     locked_state.players.push(new_player);
     Ok(())
@@ -72,10 +75,12 @@ async fn add_player(
 async fn initialise(state: tauri::State<'_, Mutex<Competition>>) -> Result<(), Error> {
     let mut locked_state = state.lock()?;
     let num_players: usize = locked_state.players.len();
+    locked_state.games_played = Array2::<usize>::zeros((num_players, num_players));
     locked_state.games_won = Array2::<usize>::zeros((num_players, num_players));
     locked_state.prop = Array2::<f64>::zeros((num_players, num_players));
     locked_state.rankings = Array1::<f64>::zeros(num_players);
     locked_state.initialised = true;
+    println!("Initialised");
     Ok(())
 }
 
@@ -87,8 +92,10 @@ async fn add_result(
     //Check if we can conform result to a result before we lock the thread
     let result: GameResult = serde_json::from_str(&result)?;
     let mut locked_state = state.lock()?;
-    let p1_p2 = [result.player_1_id, result.player_2_id];
-    let p2_p1 = [result.player_2_id, result.player_1_id];
+    let player_1_id = result.player_1_id;
+    let player_2_id = result.player_2_id;
+    let p1_p2 = [player_1_id, player_2_id];
+    let p2_p1 = [player_2_id, player_1_id];
     locked_state.games_won[p1_p2] += result.player_1_wins;
     locked_state.games_won[p2_p1] += result.player_2_wins;
     locked_state.games_played[p1_p2] += result.player_1_wins + result.player_2_wins;
@@ -97,13 +104,17 @@ async fn add_result(
         / f64::approx_from(locked_state.games_played[p1_p2]).unwrap();
     locked_state.prop[p2_p1] = f64::approx_from(locked_state.games_won[p2_p1]).unwrap()
         / f64::approx_from(locked_state.games_played[p2_p1]).unwrap();
+    locked_state.players[player_1_id].wins += result.player_1_wins;
+    locked_state.players[player_2_id].wins += result.player_2_wins;
+    locked_state.players[player_2_id].losses += result.player_1_wins;
+    locked_state.players[player_1_id].losses += result.player_2_wins;
     Ok(())
 }
 
 #[tauri::command]
 async fn update_results(state: tauri::State<'_, Mutex<Competition>>) -> Result<(), Error> {
     let mut locked_state = state.lock()?;
-    let (new_rankings, _) = rs_power(locked_state.prop.view(), 1e-2);
+    let (new_rankings, _) = rs_power(locked_state.prop.view(), 1e-8);
     locked_state.rankings.assign(&new_rankings);
     Ok(())
 }
@@ -134,6 +145,15 @@ async fn get_players(state: tauri::State<'_, Mutex<Competition>>) -> Result<Stri
     Ok(serde_json::to_string(&locked_state.players)?)
 }
 
+#[tauri::command]
+async fn update_player_scores(state: tauri::State<'_, Mutex<Competition>>) -> Result<(), Error> {
+    let mut locked_state = state.lock()?;
+    for i in 0..locked_state.players.len() {
+        locked_state.players[i].score = locked_state.rankings[i].clone();
+    }
+    Ok(())
+}
+
 fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(Competition {
@@ -147,7 +167,8 @@ fn main() {
             update_results,
             get_scores,
             get_ranks,
-            get_players
+            get_players,
+            update_player_scores
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
