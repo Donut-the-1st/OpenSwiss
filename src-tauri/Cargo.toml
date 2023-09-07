@@ -1,8 +1,8 @@
 [package]
-name = "app"
+name = "OpenSwiss"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "An open source tool for running swiss style competitions"
+authors = ["Donut the First"]
 license = ""
 repository = ""
 default-run = "app"
