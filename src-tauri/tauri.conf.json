@@ -1,8 +1,8 @@
 {
   "build": {
     "beforeBuildCommand": "npm run build",
-    "beforeDevCommand": "npm run dev",
-    "devPath": "http://localhost:5173",
+    "beforeDevCommand": "npm run dev -- --host",
+    "devPath": "http://192.168.50.80:5173/",
     "distDir": "../build"
   },
   "package": {
@@ -28,7 +28,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.openswiss.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,

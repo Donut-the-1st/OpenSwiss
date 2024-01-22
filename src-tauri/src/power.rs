@@ -46,7 +46,7 @@ fn power_sml_mat(array_A: ArrayView<f64, Ix2>, tolerance: f64) -> (Array<f64, Ix
     let mut argmax: usize = 0;
     let mut iters = 0;
 
-    while !is_converged && iters < 10000 {
+    while !is_converged && iters < 100000 {
         /* store t vector in eignenvector */
         eigenvector = array_A.dot(&eigenvector);
         /* find argmax */
